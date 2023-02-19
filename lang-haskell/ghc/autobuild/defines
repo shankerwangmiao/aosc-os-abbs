@@ -1,12 +1,11 @@
 PKGNAME=ghc
 PKGSEC=haskell
-PKGDEP="perl gmp gcc-runtime libffi numactl"
-BUILDDEP="docbook-xsl libxslt sphinx ghc"
-BUILDDEP__ARM64="${BUILDDEP} llvm"
+PKGDEP="perl gmp gcc-runtime libffi numactl llvm-runtime"
+BUILDDEP="docbook-xsl libxslt sphinx ghc llvm"
 PKGDES="The Glasgow Haskell Compiler"
 
-NOSTATIC=no
-ABSHADOW=no
+NOSTATIC=0
+ABSHADOW=0
 AB_FLAGS_O3=1
 AB_FLAGS_SPECS=0
 NOLTO=1

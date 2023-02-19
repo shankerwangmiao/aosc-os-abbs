@@ -1,5 +1,4 @@
-VER=8.10.3
-REL=2
-SRCS="tbl::https://www.haskell.org/ghc/dist/$VER/ghc-${VER}-src.tar.xz"
-CHKSUMS="sha256::ccdc8319549028a708d7163e2967382677b1a5a379ff94d948195b5cf46eb931"
+VER=9.4.4
+SRCS="tbl::https://downloads.haskell.org/~ghc/$VER/ghc-$VER-src.tar.xz"
+CHKSUMS="sha256::e8cef25a6ded1531cda7a90488d0cfb6d780657d16636daa59430be030cd67e2"
 CHKUPDATE="anitya::id=906"
