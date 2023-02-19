@@ -1,0 +1,35 @@
+From 8007c38c3c0d9658c64b07262340c816479b61d6 Mon Sep 17 00:00:00 2001
+From: liushuyu <liushuyu011@gmail.com>
+Date: Sun, 19 Feb 2023 15:35:01 -0700
+Subject: [PATCH 2/2] LLVM Driver: disable opaque pointers
+
+---
+ compiler/GHC/Driver/Pipeline/Execute.hs | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/compiler/GHC/Driver/Pipeline/Execute.hs b/compiler/GHC/Driver/Pipeline/Execute.hs
+index f3ecb679c4..6e16189201 100644
+--- a/compiler/GHC/Driver/Pipeline/Execute.hs
++++ b/compiler/GHC/Driver/Pipeline/Execute.hs
+@@ -875,6 +875,8 @@ llvmOptions dflags =
+         ,"-relocation-model=" ++ rmodel) | not (null rmodel)]
+     ++ [("-stack-alignment=" ++ (show align)
+         ,"-stack-alignment=" ++ (show align)) | align > 0 ]
++    -- Disable opaque pointers
++    ++ [("--opaque-pointers=0", "-opaque-pointers=0")]
+ 
+     -- Additional llc flags
+     ++ [("", "-mcpu=" ++ mcpu)   | not (null mcpu)
+--- a/configure	2023-02-19 15:36:17.859057366 -0700
++++ b/configure	2023-02-19 15:36:30.558057589 -0700
+@@ -10062,8 +10062,8 @@
+ # tools we are looking for. In the past, GHC supported a number of
+ # versions of LLVM simultaneously, but that stopped working around
+ # 3.5/3.6 release of LLVM.
+-LlvmMinVersion=10  # inclusive
+-LlvmMaxVersion=14 # not inclusive
++LlvmMinVersion=11  # inclusive
++LlvmMaxVersion=16 # not inclusive
+ 
+ 
+ sUPPORTED_LLVM_VERSION_MIN=$(echo \($LlvmMinVersion\) | sed 's/\./,/')
