@@ -1,0 +1,3 @@
+abinfo "Building haskell-happy using cabal ..."
+cabal update
+cabal install --verbose=2 --ghc-options="-fllvm -O2 -fPIC" --prefix="$PKGDIR"/usr

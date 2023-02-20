@@ -1,0 +1,7 @@
+PKGNAME=haskell-happy
+PKGSEC=haskell
+PKGDEP="gmp libffi"
+BUILDDEP="ghc cabal-install"
+PKGDES="A parser generator for Haskell"
+
+ABSPLITDBG=0
