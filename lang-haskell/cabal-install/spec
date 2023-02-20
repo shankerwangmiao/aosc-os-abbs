@@ -1,6 +1,4 @@
-VER=2.4.1.0
-REL=2
+VER=3.8.1.0
 SRCS="tbl::https://github.com/haskell/cabal/archive/cabal-install-v$VER.tar.gz"
-CHKSUMS="sha256::61eb64a5addafca026aff9277291f4643fe07e83886f76d059d42c734fed829c"
+CHKSUMS="sha256::e547d8ef7d86c8f1633b23d28bed3a8457bf08db3a382e4b4faa1cc7e8de0393"
 CHKUPDATE="anitya::id=243"
-SUBDIR="cabal-cabal-install-v$VER/cabal-install"
