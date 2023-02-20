@@ -7,5 +7,6 @@ PKGDES="A user interface to the Cabal/Hackage automation and package management 
 
 NOLTO=1
 AB_FLAGS_SPECS=0
+ABSPLITDBG=0
 
 PKGEPOCH=1

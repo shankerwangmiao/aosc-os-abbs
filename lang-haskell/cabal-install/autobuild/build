@@ -1,2 +1,4 @@
 abinfo "Building Cabal using existing Cabal ..."
-cabal install --prefix="$PKGDIR"/usr --project-file=cabal.project.release cabal-install
+cabal v2-build --ghc-options="-fllvm -O2 -fPIC" --prefix="$PKGDIR"/usr --project-file=cabal.project.release cabal-install
+install -dv "$PKGDIR"/usr/bin
+cabal v2-install --install-method=copy --installdir="$PKGDIR"/usr/bin --project-file=cabal.project.release cabal-install
