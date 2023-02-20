@@ -1,7 +1,7 @@
 PKGNAME=ghc
 PKGSEC=haskell
 PKGDEP="perl gmp gcc-runtime libffi numactl llvm-runtime"
-BUILDDEP="docbook-xsl libxslt sphinx ghc llvm"
+BUILDDEP="docbook-xsl libxslt sphinx ghc llvm alex haskell-happy"
 PKGDES="The Glasgow Haskell Compiler"
 
 NOSTATIC=0
