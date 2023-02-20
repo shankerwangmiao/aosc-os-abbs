@@ -1,3 +1,4 @@
+export PYTHON=/usr/bin/python3
 ./configure --prefix=/usr \
             --with-system-libffi \
             --with-ffi-includes=$(pkg-config --variable=includedir libffi)
