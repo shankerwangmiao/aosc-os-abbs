@@ -1,2 +1,2 @@
 abinfo "Building Cabal using existing Cabal ..."
-cabal install --prefix="$PKGDIR"/usr --project-file=cabal.project.release
+cabal install --prefix="$PKGDIR"/usr --project-file=cabal.project.release cabal-install
