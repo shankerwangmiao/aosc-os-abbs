@@ -1,0 +1,122 @@
+From 35988c0c0c11d1d0d079b8b3a8f9b7038bef0a8f Mon Sep 17 00:00:00 2001
+From: liushuyu <liushuyu011@gmail.com>
+Date: Wed, 29 Mar 2023 16:20:42 -0600
+Subject: [PATCH 1001/1001] llvm-targets: add MIPS64 r2 support
+
+---
+ compiler/CodeGen.Platform.h     | 68 +++++++++++++++++++++++++++++++++
+ compiler/GHC/Platform/MIPS64.hs | 10 +++++
+ llvm-targets                    |  1 +
+ 3 files changed, 79 insertions(+)
+ create mode 100644 compiler/GHC/Platform/MIPS64.hs
+
+diff --git a/compiler/CodeGen.Platform.h b/compiler/CodeGen.Platform.h
+index a216d266dd..dce1c26bd2 100644
+--- a/compiler/CodeGen.Platform.h
++++ b/compiler/CodeGen.Platform.h
+@@ -377,6 +377,74 @@ import GHC.Platform.Reg
+ # define ft10 62
+ # define ft11 63
+ 
++#elif defined(MACHREGS_mips64)
++
++# define zero 0
++# define at   1
++# define v0   2
++# define v1   3
++# define a0   4
++# define a1   5
++# define a2   6
++# define a3   7
++# define a4   8
++# define a5   9
++# define a6  10
++# define a7  11
++# define t4  12
++# define t5  13
++# define t6  14
++# define t7  15
++# define s0  16
++# define s1  17
++# define s2  18
++# define s3  19
++# define s4  20
++# define s5  21
++# define s6  22
++# define s7  23
++# define t8  24
++# define t9  25
++# define k0  26
++# define k1  27
++# define gp  28
++# define sp  29
++# define s8  30
++# define ra  31
++
++# define f0   32
++# define f1   33
++# define f2   34
++# define f3   35
++# define f4   36
++# define f5   37
++# define f6   38
++# define f7   39
++# define f8   40
++# define f9   41
++# define f10  42
++# define f11  43
++# define f12  44
++# define f13  45
++# define f14  46
++# define f15  47
++# define f16  48
++# define f17  49
++# define f18  50
++# define f19  51
++# define f20  52
++# define f21  53
++# define f22  54
++# define f23  55
++# define f24  56
++# define f25  57
++# define f26  58
++# define f27  59
++# define f28  60
++# define f29  61
++# define f30  62
++# define f31  63
++
+ #endif
+ 
+ callerSaves :: GlobalReg -> Bool
+diff --git a/compiler/GHC/Platform/MIPS64.hs b/compiler/GHC/Platform/MIPS64.hs
+new file mode 100644
+index 0000000000..4d3c2a660e
+--- /dev/null
++++ b/compiler/GHC/Platform/MIPS64.hs
+@@ -0,0 +1,10 @@
++{-# LANGUAGE CPP #-}
++
++module GHC.Platform.MIPS64 where
++
++import GHC.Prelude
++
++#define MACHREGS_NO_REGS 0
++#define MACHREGS_mips64 1
++#include "CodeGen.Platform.h"
++
+diff --git a/llvm-targets b/llvm-targets
+index aa6b47c959..b762aa85b0 100644
+--- a/llvm-targets
++++ b/llvm-targets
+@@ -40,6 +40,7 @@
+ ,("s390x-ibm-linux", ("E-m:e-i1:8:16-i8:8:16-i64:64-f128:64-a:8:16-n32:64", "z10", ""))
+ ,("riscv64-unknown-linux-gnu", ("e-m:e-p:64:64-i64:64-i128:128-n64-S128", "", "+m +a +f +d +c +relax -save-restore"))
+ ,("riscv64-unknown-linux", ("e-m:e-p:64:64-i64:64-i128:128-n64-S128", "", "+m +a +f +d +c +relax -save-restore"))
++,("mips64el-unknown-linux-gnuabi64", ("e-m:e-i8:8:32-i16:16:32-i64:64-n32:64-S128", "mips64r2", "+mips64r2"))
+ ,("i386-apple-darwin", ("e-m:o-p:32:32-p270:32:32-p271:32:32-p272:64:64-f64:32:64-f80:128-n8:16:32-S128", "yonah", ""))
+ ,("x86_64-apple-darwin", ("e-m:o-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128", "core2", ""))
+ ,("arm64-apple-darwin", ("e-m:o-i64:64-i128:128-n32:64-S128", "apple-a7", "+fp-armv8 +neon +crypto +zcm +zcz +sha2 +aes"))
+-- 
+2.40.0
+

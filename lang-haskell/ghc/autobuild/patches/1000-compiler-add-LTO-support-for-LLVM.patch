@@ -1,0 +1,146 @@
+From c04339430280be0476946254b913d8107d9b1806 Mon Sep 17 00:00:00 2001
+From: liushuyu <liushuyu011@gmail.com>
+Date: Wed, 29 Mar 2023 18:33:42 -0600
+Subject: [PATCH 1000/1001] compiler: add LTO support for LLVM
+
+---
+ compiler/GHC/Driver/Flags.hs            |  1 +
+ compiler/GHC/Driver/Pipeline.hs         |  6 ++++--
+ compiler/GHC/Driver/Pipeline/Execute.hs | 16 ++++++++++------
+ compiler/GHC/Driver/Pipeline/Phases.hs  |  2 +-
+ compiler/GHC/Driver/Session.hs          |  1 +
+ compiler/GHC/Linker/Dynamic.hs          |  2 +-
+ compiler/GHC/Linker/Static.hs           |  2 ++
+ 7 files changed, 20 insertions(+), 10 deletions(-)
+
+diff --git a/compiler/GHC/Driver/Flags.hs b/compiler/GHC/Driver/Flags.hs
+index 8f6c37d5a7..6a0a86dc27 100644
+--- a/compiler/GHC/Driver/Flags.hs
++++ b/compiler/GHC/Driver/Flags.hs
+@@ -297,6 +297,7 @@ data GeneralFlag
+    | Opt_PIC                         -- ^ @-fPIC@
+    | Opt_PIE                         -- ^ @-fPIE@
+    | Opt_PICExecutable               -- ^ @-pie@
++   | Opt_LTO
+    | Opt_ExternalDynamicRefs
+    | Opt_Ticky
+    | Opt_Ticky_Allocd
+diff --git a/compiler/GHC/Driver/Pipeline.hs b/compiler/GHC/Driver/Pipeline.hs
+index 37c8538d5f..a9d38feb9a 100644
+--- a/compiler/GHC/Driver/Pipeline.hs
++++ b/compiler/GHC/Driver/Pipeline.hs
+@@ -783,8 +783,10 @@ viaCPipeline c_phase pipe_env hsc_env location input_fn = do
+ 
+ llvmPipeline :: P m => PipeEnv -> HscEnv -> Maybe ModLocation -> FilePath -> m (Maybe FilePath)
+ llvmPipeline pipe_env hsc_env location fp = do
+-  opt_fn <- use (T_LlvmOpt pipe_env hsc_env fp)
+-  llvmLlcPipeline pipe_env hsc_env location opt_fn
++  opt_fn <- use (T_LlvmOpt pipe_env hsc_env location fp)
++  if gopt Opt_LTO (hsc_dflags hsc_env)
++    then return $ Just opt_fn
++    else llvmLlcPipeline pipe_env hsc_env location opt_fn
+ 
+ llvmLlcPipeline :: P m => PipeEnv -> HscEnv -> Maybe ModLocation -> FilePath -> m (Maybe FilePath)
+ llvmLlcPipeline pipe_env hsc_env location opt_fn = do
+diff --git a/compiler/GHC/Driver/Pipeline/Execute.hs b/compiler/GHC/Driver/Pipeline/Execute.hs
+index f3ecb679c4..a904416520 100644
+--- a/compiler/GHC/Driver/Pipeline/Execute.hs
++++ b/compiler/GHC/Driver/Pipeline/Execute.hs
+@@ -136,8 +136,8 @@ runPhase (T_Cmm pipe_env hsc_env input_fn) = do
+ runPhase (T_Cc phase pipe_env hsc_env input_fn) = runCcPhase phase pipe_env hsc_env input_fn
+ runPhase (T_As cpp pipe_env hsc_env location input_fn) = do
+   runAsPhase cpp pipe_env hsc_env location input_fn
+-runPhase (T_LlvmOpt pipe_env hsc_env input_fn) =
+-  runLlvmOptPhase pipe_env hsc_env input_fn
++runPhase (T_LlvmOpt pipe_env hsc_env location input_fn) =
++  runLlvmOptPhase pipe_env hsc_env location input_fn
+ runPhase (T_LlvmLlc pipe_env hsc_env input_fn) =
+   runLlvmLlcPhase pipe_env hsc_env input_fn
+ runPhase (T_LlvmMangle pipe_env hsc_env input_fn) =
+@@ -214,7 +214,8 @@ runLlvmLlcPhase pipe_env hsc_env input_fn = do
+         llvmOpts = case llvmOptLevel dflags of
+           0 -> "-O1" -- required to get the non-naive reg allocator. Passing -regalloc=greedy is not sufficient.
+           1 -> "-O1"
+-          _ -> "-O2"
++          2 -> "-O2"
++          _ -> "-O3"
+ 
+         defaultOptions = map GHC.SysTools.Option . concatMap words . snd
+                          $ unzip (llvmOptions dflags)
+@@ -239,8 +240,8 @@ runLlvmLlcPhase pipe_env hsc_env input_fn = do
+ 
+     return output_fn
+ 
+-runLlvmOptPhase :: PipeEnv -> HscEnv -> FilePath -> IO FilePath
+-runLlvmOptPhase pipe_env hsc_env input_fn = do
++runLlvmOptPhase :: PipeEnv -> HscEnv -> Maybe ModLocation -> FilePath -> IO FilePath
++runLlvmOptPhase pipe_env hsc_env location input_fn = do
+     let dflags = hsc_dflags hsc_env
+         logger = hsc_logger hsc_env
+     let -- we always (unless -optlo specified) run Opt since we rely on it to
+@@ -262,7 +263,10 @@ runLlvmOptPhase pipe_env hsc_env input_fn = do
+                   then map GHC.SysTools.Option $ words llvmOpts
+                   else []
+ 
+-    output_fn <- phaseOutputFilenameNew LlvmLlc pipe_env hsc_env Nothing
++    next_phase <- if -- if lto flag is set, then skip llc and assembler
++                    | gopt Opt_LTO dflags -> return StopLn
++                    | otherwise -> return LlvmLlc
++    output_fn <- phaseOutputFilenameNew next_phase pipe_env hsc_env location
+ 
+     GHC.SysTools.runLlvmOpt logger dflags
+                (   optFlag
+diff --git a/compiler/GHC/Driver/Pipeline/Phases.hs b/compiler/GHC/Driver/Pipeline/Phases.hs
+index 431c9e0b1d..376946eff1 100644
+--- a/compiler/GHC/Driver/Pipeline/Phases.hs
++++ b/compiler/GHC/Driver/Pipeline/Phases.hs
+@@ -43,7 +43,7 @@ data TPhase res where
+   T_Cmm :: PipeEnv -> HscEnv -> FilePath -> TPhase ([FilePath], FilePath)
+   T_Cc :: Phase -> PipeEnv -> HscEnv -> FilePath -> TPhase FilePath
+   T_As :: Bool -> PipeEnv -> HscEnv -> Maybe ModLocation -> FilePath -> TPhase FilePath
+-  T_LlvmOpt :: PipeEnv -> HscEnv -> FilePath -> TPhase FilePath
++  T_LlvmOpt :: PipeEnv -> HscEnv -> Maybe ModLocation -> FilePath -> TPhase FilePath
+   T_LlvmLlc :: PipeEnv -> HscEnv -> FilePath -> TPhase FilePath
+   T_LlvmMangle :: PipeEnv -> HscEnv -> FilePath -> TPhase FilePath
+   T_MergeForeign :: PipeEnv -> HscEnv -> FilePath -> [FilePath] -> TPhase FilePath
+diff --git a/compiler/GHC/Driver/Session.hs b/compiler/GHC/Driver/Session.hs
+index 51d27cd0f8..e70588a081 100644
+--- a/compiler/GHC/Driver/Session.hs
++++ b/compiler/GHC/Driver/Session.hs
+@@ -2935,6 +2935,7 @@ dynamic_flags_deps = [
+          (deprecate $ "The -fvia-C flag does nothing; " ++
+                       "it will be removed in a future GHC release"))
+   , make_ord_flag defGhcFlag "fllvm"            (NoArg (setObjBackend LLVM))
++  , make_ord_flag defGhcFlag "flto"             (NoArg (setGeneralFlag Opt_LTO))
+ 
+   , make_ord_flag defFlag "fno-code"         (NoArg ((upd $ \d ->
+                   d { ghcLink=NoLink }) >> setBackend NoBackend))
+diff --git a/compiler/GHC/Linker/Dynamic.hs b/compiler/GHC/Linker/Dynamic.hs
+index c62a6e2242..00952406eb 100644
+--- a/compiler/GHC/Linker/Dynamic.hs
++++ b/compiler/GHC/Linker/Dynamic.hs
+@@ -87,7 +87,7 @@ linkDynLib logger tmpfs dflags0 unit_env o_files dep_packages
+ 
+         -- probably _stub.o files
+         -- and last temporary shared object file
+-    let extra_ld_inputs = ldInputs dflags
++    let extra_ld_inputs = ldInputs dflags ++ [ Option "-flto" | gopt Opt_LTO dflags ]
+ 
+     -- frameworks
+     pkg_framework_opts <- getUnitFrameworkOpts unit_env (map unitId pkgs)
+diff --git a/compiler/GHC/Linker/Static.hs b/compiler/GHC/Linker/Static.hs
+index 7a7dc89c82..709c733243 100644
+--- a/compiler/GHC/Linker/Static.hs
++++ b/compiler/GHC/Linker/Static.hs
+@@ -248,6 +248,8 @@ linkBinary' staticLink logger tmpfs dflags unit_env o_files dep_units = do
+                           then ["-Wl,--gc-sections"]
+                           else [])
+ 
++                      ++ (["-flto" | gopt Opt_LTO dflags])
++
+                       ++ o_files
+                       ++ lib_path_opts)
+                       ++ extra_ld_inputs
+-- 
+2.40.0
+
