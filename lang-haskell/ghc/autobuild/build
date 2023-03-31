@@ -2,5 +2,5 @@ export PYTHON=/usr/bin/python3
 ./configure --prefix=/usr \
             --with-system-libffi \
             --with-ffi-includes=$(pkg-config --variable=includedir libffi)
-make
-make install DESTDIR="$PKGDIR" -j1
+
+./hadrian/build --flavour=perf+llvm -j --prefix="$PKGDIR"/usr binary-dist-dir

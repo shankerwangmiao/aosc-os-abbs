@@ -1,6 +1,0 @@
-# Full build with max optimisation and use LLVM (very slow build).
-cat << EOF > mk/build.mk
-include mk/flavours/perf-llvm.mk
-
-STRIP_CMD = :
-EOF
