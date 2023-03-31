@@ -1,3 +1,5 @@
 abinfo "Building haskell-happy using cabal ..."
-cabal update
-cabal install --verbose=2 --ghc-options="-fllvm -O2 -fPIC" --prefix="$PKGDIR"/usr
+cabal v2-update
+install -d "$PKGDIR"/usr/bin
+cabal v2-build --ghc-options="-fllvm -O2 -fPIC"
+cabal v2-install --install-method=copy --installdir="$PKGDIR"/usr/bin
