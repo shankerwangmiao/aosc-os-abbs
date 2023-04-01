@@ -1,7 +1,7 @@
 From 35988c0c0c11d1d0d079b8b3a8f9b7038bef0a8f Mon Sep 17 00:00:00 2001
 From: liushuyu <liushuyu011@gmail.com>
 Date: Wed, 29 Mar 2023 16:20:42 -0600
-Subject: [PATCH 1001/1001] llvm-targets: add MIPS64 r2 support
+Subject: [PATCH 1001/1002] llvm-targets: add MIPS64 r2 support
 
 ---
  compiler/CodeGen.Platform.h     | 68 +++++++++++++++++++++++++++++++++

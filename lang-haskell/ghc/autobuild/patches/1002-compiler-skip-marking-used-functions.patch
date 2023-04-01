@@ -1,0 +1,58 @@
+From 7fb06755903a37ed21b689814c93538a956eaa4b Mon Sep 17 00:00:00 2001
+From: liushuyu <liushuyu011@gmail.com>
+Date: Sat, 1 Apr 2023 02:47:11 -0600
+Subject: [PATCH 1002/1002] compiler: skip marking used functions ...
+
+... if LTO is enabled. Because LLVM will do a IPA pass on all the
+translation units during the linking phase
+---
+ compiler/GHC/CmmToLlvm.hs               | 4 ++--
+ compiler/GHC/CmmToLlvm/Config.hs        | 1 +
+ compiler/GHC/Driver/Config/CmmToLlvm.hs | 1 +
+ 3 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/compiler/GHC/CmmToLlvm.hs b/compiler/GHC/CmmToLlvm.hs
+index 1833ddb74f..a01370ded2 100644
+--- a/compiler/GHC/CmmToLlvm.hs
++++ b/compiler/GHC/CmmToLlvm.hs
+@@ -37,7 +37,7 @@ import GHC.Utils.Panic
+ import GHC.Utils.Logger
+ import qualified GHC.Data.Stream as Stream
+ 
+-import Control.Monad ( when, forM_ )
++import Control.Monad ( when, forM_, unless )
+ import Data.Maybe ( fromMaybe, catMaybes )
+ import System.IO
+ 
+@@ -102,7 +102,7 @@ llvmCodeGen' cfg cmm_stream
+         renderLlvm . pprLlvmData cfg =<< generateExternDecls
+ 
+         -- Postamble
+-        cmmUsedLlvmGens
++        unless (llvmCgUseLTO cfg) cmmUsedLlvmGens
+ 
+         return a
+   where
+diff --git a/compiler/GHC/CmmToLlvm/Config.hs b/compiler/GHC/CmmToLlvm/Config.hs
+index 84455a8b2c..c16c613f5e 100644
+--- a/compiler/GHC/CmmToLlvm/Config.hs
++++ b/compiler/GHC/CmmToLlvm/Config.hs
+@@ -28,4 +28,5 @@ data LlvmCgConfig = LlvmCgConfig
+   , llvmCgLlvmConfig        :: !LlvmConfig   -- ^ mirror DynFlags LlvmConfig.
+     -- see Note [LLVM configuration] in "GHC.SysTools". This can be strict since
+     -- GHC.Driver.Config.CmmToLlvm.initLlvmCgConfig verifies the files are present.
++  , llvmCgUseLTO            :: !Bool         -- ^ Use LTO for this session
+   }
+diff --git a/compiler/GHC/Driver/Config/CmmToLlvm.hs b/compiler/GHC/Driver/Config/CmmToLlvm.hs
+index 18721bf845..904f7be746 100644
+--- a/compiler/GHC/Driver/Config/CmmToLlvm.hs
++++ b/compiler/GHC/Driver/Config/CmmToLlvm.hs
+@@ -27,4 +27,5 @@ initLlvmCgConfig logger dflags = do
+     , llvmCgDoWarn               = wopt Opt_WarnUnsupportedLlvmVersion dflags
+     , llvmCgLlvmTarget           = platformMisc_llvmTarget $! platformMisc dflags
+     , llvmCgLlvmConfig           = llvmConfig dflags
++    , llvmCgUseLTO               = gopt Opt_LTO dflags
+     }
+-- 
+2.40.0
+

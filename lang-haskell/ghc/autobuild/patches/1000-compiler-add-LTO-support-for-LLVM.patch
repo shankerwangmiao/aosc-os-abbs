@@ -1,7 +1,7 @@
 From c04339430280be0476946254b913d8107d9b1806 Mon Sep 17 00:00:00 2001
 From: liushuyu <liushuyu011@gmail.com>
 Date: Wed, 29 Mar 2023 18:33:42 -0600
-Subject: [PATCH 1000/1001] compiler: add LTO support for LLVM
+Subject: [PATCH 1000/1002] compiler: add LTO support for LLVM
 
 ---
  compiler/GHC/Driver/Flags.hs            |  1 +
