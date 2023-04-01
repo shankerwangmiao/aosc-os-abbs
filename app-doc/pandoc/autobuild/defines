@@ -1,8 +1,9 @@
 PKGNAME=pandoc
 PKGSEC=doc
 PKGDEP="cmark texlive"
-BUILDDEP="cabal-install ghc zlib-static numactl libffi"
-BUILDDEP__ARM64="${BUILDDEP} llvm"
+BUILDDEP="cabal-install ghc zlib-static numactl libffi llvm"
 PKGDES="Universal markup converter"
 
+NOLTO=1
 AB_FLAGS_SPECS=0
+ABSPLITDBG=0
