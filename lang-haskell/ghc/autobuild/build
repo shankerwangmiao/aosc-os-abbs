@@ -3,4 +3,14 @@ export PYTHON=/usr/bin/python3
             --with-system-libffi \
             --with-ffi-includes=$(pkg-config --variable=includedir libffi)
 
-./hadrian/build --flavour=perf+llvm -j --prefix="$PKGDIR"/usr binary-dist-dir
+FLAVOUR="perf"
+# use GHC NCG backend to reduce code size on supported platforms
+if ! ab_match_arch amd64 && \
+   ! ab_match_arch arm64 && \
+   ! ab_match_arch ppc64le; then
+# use LLVM backend on unsupported platforms to make GHC at least builds
+    FLAVOUR+="+llvm"
+fi
+
+# disable documentation since it requires xelatex and sphinx
+./hadrian/build --flavour="$FLAVOUR" --docs=none -j --prefix=/usr install

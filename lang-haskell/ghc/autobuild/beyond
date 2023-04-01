@@ -1,3 +1,7 @@
+abinfo "Removing libFFI headers ..."
+rm -v "$PKGDIR"/usr/include/{ffi.h,ffitarget.h}
+
+abinfo "Installing shell completions ..."
 install -Dm644 utils/completion/ghc.bash \
     "$PKGDIR"/usr/share/bash-completion/completions/ghc
 install -d -m755 "$PKGDIR"/usr/share/haskell/{register,unregister}
