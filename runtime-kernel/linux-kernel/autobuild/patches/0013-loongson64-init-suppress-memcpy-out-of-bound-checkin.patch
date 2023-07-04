@@ -1,4 +1,4 @@
-From c5c124cc4076f3a1ba64c269672c57401dfeebd2 Mon Sep 17 00:00:00 2001
+From 7d0a5538175d19db29b4f35d1154db86bf693484 Mon Sep 17 00:00:00 2001
 From: Tianhao Chai <cth451@gmail.com>
 Date: Wed, 24 Aug 2022 03:54:11 +0000
 Subject: [PATCH] loongson64/init: suppress memcpy out-of-bound checking
