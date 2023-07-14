@@ -1,4 +1,4 @@
-VER=5.27.2
+VER=5.27.6
 SRCS="tbl::https://download.kde.org/stable/plasma/$VER/powerdevil-$VER.tar.xz"
-CHKSUMS="sha256::3d74c855bc318b716e34efcaf851e194d15ad6dc44eb5615dfb5d110277799ab"
+CHKSUMS="sha256::6b230fabf2738455e3dfc3ab15e70b942ec827dc3080434774c6cb19d3217fb5"
 CHKUPDATE="anitya::id=8761"
