@@ -1,4 +1,4 @@
-VER=20220611
+VER=20230614
 SRCS="tbl::https://github.com/M0Rf30/android-udev-rules/archive/refs/tags/$VER.tar.gz"
-CHKSUMS="sha256::95c4dee7f3e94ddc9b580cd2e6712e7cb36809007d6f25906f863338f3054f6e"
+CHKSUMS="sha256::563b8f3194110b7173dfaad61e74da2842b28c4f2409dedce04d5572ef2f056f"
 CHKUPDATE="anitya::id=226909"
