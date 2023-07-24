@@ -1,4 +1,4 @@
-VER=33.0.3p2
+VER=34.0.1
 SRCS="https://github.com/nmeum/android-tools/releases/download/$VER/android-tools-$VER.tar.xz"
-CHKSUMS="sha256::6bf6b52d7389e79fc92b63cc206451ee42fc4f7da769d76922193e98d75f5604"
+CHKSUMS="sha256::60234ecbca19a17a7e2f46a4581960d645b7c55b870d924a21494c76a6f548ec"
 CHKUPDATE="anitya::id=226905"
