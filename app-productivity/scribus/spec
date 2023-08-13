@@ -1,4 +1,4 @@
-VER=1.4.8
-SRCS="https://sourceforge.net/projects/scribus/files/scribus/$VER/scribus-$VER.tar.xz"
-CHKSUMS="sha256::22253bb5994023f39608b37c57c7cd0280059fd97d2a4d71d4011aeeeb18042f"
+VER=1.5.8
+SRCS="https://downloads.sourceforge.net/scribus/scribus-$VER.tar.xz"
+CHKSUMS="sha256::47816e8fcf6d05788ff16aa4499f97ff22431c777a7789149b0a88b451e16b74"
 CHKUPDATE="anitya::id=4773"
