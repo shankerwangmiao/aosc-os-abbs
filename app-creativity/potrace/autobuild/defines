@@ -8,7 +8,6 @@ AUTOTOOLS_AFTER="--enable-metric \
                  --enable-dumb-tty \
                  --with-libpotrace"
 
-NOLTO__ARM64=1
-NOLTO__LOONGSON3=1
-NOLTO__PPC64EL=1
-NOLTO__POWERPC=1
+NOLTO=1
+NOLTO__AMD64=0
+
