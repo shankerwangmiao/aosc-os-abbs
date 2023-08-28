@@ -1,2 +1,7 @@
 export CFLAGS="${CFLAGS} -fPIC"
 export LDFLAGS="${LDFLAGS} -fPIC"
+
+if ab_match_arch "riscv64" ; then
+    abinfo "Attaching -latomic for RISC-V ..."
+    export LDFLAGS="${LDFLAGS} -latomic"
+fi
