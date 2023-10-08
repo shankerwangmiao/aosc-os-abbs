@@ -1,0 +1,24 @@
+unset CFLAGS CXXFLAGS LDFLAGS CPPFLAGS
+
+mkdir -p build
+cd build
+export PATH="/opt/abcross/loongarch64/bin:$PATH"
+../configure --prefix=/opt/abcross/loongarch64 --target=loongarch64-aosc-linux-gnu \
+             --with-sysroot=/var/ab/cross-root/loongarch64 \
+             --with-bugurl=https://github.com/AOSC-Dev/aosc-os-core \
+             --enable-shared --enable-threads=posix \
+             --with-system-zlib --enable-gnu-indirect-function --enable-__cxa_atexit \
+             --disable-libunwind-exceptions --enable-clocale=gnu \
+             --disable-libstdcxx-pch --disable-libssp \
+             --enable-gnu-unique-object --enable-linker-build-id \
+             --enable-lto --enable-plugin \
+             --disable-multilib --disable-werror \
+             --enable-pie \
+             --enable-checking=release \
+             --enable-libstdcxx-dual-abi --with-default-libstdcxx-abi=new \
+             --enable-default-pie --enable-default-ssp \
+             --enable-languages=c,c++,fortran,lto,objc,obj-c++,d \
+             --with-abi=lp64d --with-arch=loongarch64 --with-tune=la464
+make AS_FOR_TARGET=/opt/abcross/loongarch64/bin/loongarch64-aosc-linux-gnu-as \
+     LD_FOR_TARGET=/opt/abcross/loongarch64/bin/loongarch64-aosc-linux-gnu-ld
+make DESTDIR=$PKGDIR install

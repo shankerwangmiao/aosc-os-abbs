@@ -1,0 +1,10 @@
+VER=13.2.0~frontier
+# Note: Use with Git snapshots.
+# SRCS="tbl::https://repo.aosc.io/aosc-repacks/gcc-$VER.tar.xz"
+# Note: Use with upstream stable releases.
+SRCS="tbl::https://ftp.gnu.org/gnu/gcc/gcc-13.2.0/gcc-13.2.0.tar.xz \
+      file::rename=sysroot.tar.xz::https://releases.aosc.io/os-loongarch64/buildkit/aosc-os_buildkit_20231008_loongarch64.tar.xz"
+CHKSUMS="sha256::e275e76442a6067341a27f04c5c6b83d8613144004c0413528863dc6b5c743da \
+         sha256::1b6aa61fc0f7deb8adff3bf9b73bfe4c3376fcd8e481201e1b7145feab9209cb"
+CHKUPDATE="anitya::id=6502"
+SUBDIR="gcc-13.2.0"
