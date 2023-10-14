@@ -1,5 +1,7 @@
-VER=4.5.2
-SRCS="tbl::https://cdn.kernel.org/pub/linux/kernel/v${VER:0:1}.x/linux-$VER.tar.xz"
-CHKSUMS="sha256::e32339db8365f0f10b873928095da47dd3e8a40f8ea5edd5501320d4ff30209f"
-REL=2
-CHKUPDATE="git::url=https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git;pattern=v5.4.*"
+VER=6.4.7
+# Note: Use with -rcN releases.
+# SRCS="tbl::https://git.kernel.org/torvalds/t/linux-${VER}.tar.gz"
+# Note: Use with stable/mainline/LTS releases.
+SRCS="tbl::https://www.kernel.org/pub/linux/kernel/v${VER%%.*}.x/linux-$VER.tar.xz"
+CHKSUMS="sha256::de143cb61dcaa756c05f56ff35144316d810615819518a33e34754f064c4a7d8"
+CHKUPDATE="git::url=https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git;pattern=v6.3.*"
