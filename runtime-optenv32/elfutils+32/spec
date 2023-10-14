@@ -1,5 +1,5 @@
-VER=0.166
-SRCS="tbl::https://fedorahosted.org/releases/e/l/elfutils/$VER/elfutils-$VER.tar.bz2"
-CHKSUMS="sha256::3c056914c8a438b210be0d790463b960fc79d234c3f05ce707cbff80e94cba30"
-REL=2
+VER=0.188
+SRCS="tbl::https://sourceware.org/elfutils/ftp/$VER/elfutils-$VER.tar.bz2"
+# checksum: https://sourceware.org/elfutils/ftp/$VER/sha512.sum
+CHKSUMS="sha256::fb8b0e8d0802005b9a309c60c1d8de32dd2951b56f0c3a3cb56d21ce01595dff"
 CHKUPDATE="anitya::id=5679"
