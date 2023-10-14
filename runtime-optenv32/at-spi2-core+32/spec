@@ -1,4 +1,4 @@
-VER=2.26.3
-SRCS="tbl::https://download.gnome.org/sources/at-spi2-core/${VER:0:4}/at-spi2-core-$VER.tar.xz"
-CHKSUMS="sha256::ebc9cdc4a1646c993735201426600c1f5432c694f95c69805ae16ad15065ccaf"
+VER=2.44.1
+SRCS="https://download.gnome.org/sources/at-spi2-core/${VER:0:4}/at-spi2-core-$VER.tar.xz"
+CHKSUMS="sha256::4beb23270ba6cf7caf20b597354d75194d89afb69d2efcf15f4271688ba6f746"
 CHKUPDATE="anitya::id=7841"
