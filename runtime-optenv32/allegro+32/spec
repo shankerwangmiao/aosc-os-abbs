@@ -1,5 +1,4 @@
-VER=4.4.2
-SRCS="tbl::https://sourceforge.net/projects/alleg/files/allegro/$VER/allegro-$VER.tar.gz"
-CHKSUMS="sha256::1b21e7577dbfada02d85ca4510bd22fedaa6ce76fde7f4838c7c1276eb840fdc"
-REL=2
+VER=5.2.6.0
+SRCS="https://github.com/liballeg/allegro5/releases/download/$VER/allegro-$VER.tar.gz"
+CHKSUMS="sha256::5de8189ec051e1865f359654f86ec68e2a12a94edd00ad06d1106caa5ff27763"
 CHKUPDATE="anitya::id=13982"
