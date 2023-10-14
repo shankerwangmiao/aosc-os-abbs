@@ -1,5 +1,4 @@
-VER=2.2.9
+VER=2.5.0
 SRCS="tbl::https://sourceforge.net/projects/expat/files/expat/$VER/expat-$VER.tar.bz2"
-CHKSUMS="sha256::f1063084dc4302a427dabcca499c8312b3a32a29b7d2506653ecc8f950a9a237"
-REL=1
+CHKSUMS="sha256::6f0e6e01f7b30025fa05c85fdad1e5d0ec7fd35d9f61b22f34998de11969ff67"
 CHKUPDATE="anitya::id=770"
