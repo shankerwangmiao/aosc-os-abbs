@@ -1,5 +1,4 @@
-VER=1.33
+VER=1.35
 SRCS="tbl::https://ftp.gnu.org/gnu/libidn/libidn-$VER.tar.gz"
-CHKSUMS="sha256::44a7aab635bb721ceef6beecc4d49dfd19478325e1b47f3196f7d2acc4930e19"
-REL=2
+CHKSUMS="sha256::f11af1005b46b7b15d057d7f107315a1ad46935c7fcdf243c16e46ec14f0fe1e"
 CHKUPDATE="anitya::id=1639"
