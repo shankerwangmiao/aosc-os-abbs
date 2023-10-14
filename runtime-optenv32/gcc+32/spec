@@ -1,5 +1,7 @@
-VER=11.2.0
-REL=2
+VER=13.2.0
+# Note: Use with Git snapshots.
+# SRCS="tbl::https://repo.aosc.io/aosc-repacks/gcc-$VER.tar.xz"
+# Note: Use with upstream stable releases.
 SRCS="tbl::https://ftp.gnu.org/gnu/gcc/gcc-$VER/gcc-$VER.tar.xz"
-CHKSUMS="sha256::d08edc536b54c372a1010ff6619dd274c0f1603aa49212ba20f7aa2cda36fa8b"
+CHKSUMS="sha256::e275e76442a6067341a27f04c5c6b83d8613144004c0413528863dc6b5c743da"
 CHKUPDATE="anitya::id=6502"
