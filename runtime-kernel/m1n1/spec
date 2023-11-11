@@ -1,0 +1,4 @@
+VER=1.4.6
+SRCS="git::commit=tags/v$VER::https://github.com/AsahiLinux/m1n1"
+CHKSUMS="SKIP"
+CHKUPDATE="anitya::id=242983"
