@@ -1,8 +1,8 @@
-PKGNAME=linux-kernel-m1-6.3.5
+PKGNAME=linux-kernel-m1-6.5.11
 PKGSEC=kernel
 PKGDEP=""
 BUILDDEP="bc git pahole parallel kernel-build-common llvm"
-PKGDES="Linux Kernel v6.3.5 for AOSC OS (apple M1 with asahi patches)"
+PKGDES="Linux Kernel v6.5.11 for AOSC OS (apple M1 with asahi patches)"
 
 FAIL_ARCH="!(arm64)"
 ABSTRIP=0

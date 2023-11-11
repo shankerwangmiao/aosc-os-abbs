@@ -10,6 +10,6 @@
 #
 # ~cth451
 
-VER=6.3.5
-SRCS="tbl::https://github.com/AOSC-Dev/linux/archive/refs/heads/aosc-m1-${VER}.tar.gz"
-CHKSUMS="sha256::af43c3d10c3523cbb857ed8d5f7262a3de8c64902f9a88ef60bd9d24ecc421ca"
+VER=6.5.11
+SRCS="tbl::https://github.com/AOSC-Dev/linux/archive/refs/heads/aosc-asahi-${VER}.tar.gz"
+CHKSUMS="sha256::824376f7ece19caed416b1502ae3ad06dabe12d1613a0cdfd5217aec0b751688"
