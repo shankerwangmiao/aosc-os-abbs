@@ -3,5 +3,12 @@ PKGSEC="utils"
 BUILDDEP="rustc jemalloc llvm"
 PKGDES="A simple, fast and user-friendly alternative to 'find'"
 
+# FIXME: jemalloc uses a 4k page size by default,                             
+# whereas the Apple Silicon kernel page size is 16k.                              
+# For some reason it seems that jemalloc using the system link doesn't work    
+# (JEMALLOC_OVERRID variable)                                                               
+CARGO_AFTER__AARCH664="--no-default-features \                                   
+                       --features completions"                                        
+
 ABSPLITDBG=0
 USECLANG=1
