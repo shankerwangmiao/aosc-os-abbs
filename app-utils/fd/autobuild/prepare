@@ -1,0 +1,3 @@
+abinfo "Set JEMALLOC_OVERRID to system jemalloc build ..."
+export JEMALLOC_OVERRID="/usr/lib/libjemalloc.a"
+
