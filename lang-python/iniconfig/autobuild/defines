@@ -1,0 +1,8 @@
+PKGNAME=iniconfig
+PKGSEC=python
+PKGDEP="python-3"
+BUILDDEP="hatchling hatch-vcs"
+PKGDES="Brain-dead simple config-ini parsing"
+
+ABTYPE=python
+ABHOST=noarch
