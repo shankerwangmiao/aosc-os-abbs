@@ -1,4 +1,4 @@
 abinfo "Deleting rpath from Wine executables ..."
 for i in wmc wrc wine64 wineserver; do
-    test -e "$PKGDIR"/usr/bin/$i && chrpath --delete "$PKGDIR"/usr/bin/$i
+    test -e "$PKGDIR"/usr/bin/$i && cp "$PKGDIR"/usr/bin/$i /tmp/$.orig && chrpath --delete "$PKGDIR"/usr/bin/$i
 done
