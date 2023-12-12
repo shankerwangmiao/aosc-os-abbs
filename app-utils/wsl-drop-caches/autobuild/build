@@ -1,0 +1,5 @@
+abinfo "Installing binaries..."
+
+install -Dm755 -t "${PKGDIR}/usr/bin" "${SRCDIR}/src/drop_cache_if_idle"
+install -Dm644 -t "${PKGDIR}/usr/lib/systemd/system" "${SRCDIR}/src/wsl-drop-caches.service"
+install -Dm644 -t "${PKGDIR}/usr/lib/systemd/system" "${SRCDIR}/src/wsl-drop-caches.timer"
